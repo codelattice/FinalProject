@@ -6,10 +6,10 @@ const stateSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    },
-    funfacts: {
-        type: [String]
     }
+/*    funfacts: {
+        type: [String]
+    }*/
 });
 
 module.exports = mongoose.model('State', stateSchema);
