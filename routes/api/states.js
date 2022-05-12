@@ -4,11 +4,32 @@ const statesController = require('../../controllers/statesController.js'); //eve
 
 router.route('/')
     .get(statesController.getAllStates);
-//    .post(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.createNewEmployee)
-//    .put(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.updateEmployee)
-//    .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
-router.route('/:code') // '/:stateCode' <--- correct?
+router.route('/:state')
     .get(statesController.getState);
+
+router.route('/:state/capital')
+    .get(statesController.getCapital);
+
+router.route('/:state/nickname')
+    .get(statesController.getNickname);
+
+router.route('/:state/population')
+    .get(statesController.getPopulation);
+
+router.route('/:state/admission')
+    .get(statesController.getAdmission);
+
+router.route('/:state/funfact')
+    .get(statesController.getFunfact);
+
+router.route('/:state/funfact')
+    .post(statesController.postFunfact)
+
+router.route('/:state/funfact')
+    .patch(statesController.patchFunfact)
+
+router.route('/:state/funfact')
+    .delete(statesController.deleteFunfact)
 
 module.exports = router;
