@@ -1,9 +1,9 @@
-const State = require("../model/State"); //create State object
-const Funfact = require("../model/Funfact"); //create Funfact Object
+const State = require("../model/State");
+const Funfact = require("../model/Funfact");
 
-const jsonStateData = require("../model/statesData.json"); //create json array
+const jsonStateData = require("../model/statesData.json");
 
-const data = { //alternative way of creating json array
+const data = {
   states: require("../model/statesData.json"),
   setStates: function (data) {
     this.states = data;
@@ -11,13 +11,14 @@ const data = { //alternative way of creating json array
 };
 
 const getAllStates = async (req, res) => {
-  //const states = await State.find(); //commented out because it was extraneous to the functionality of the code
+  //const states = await State.find();
   //if (!states) return res.status(204).json({ 'message': 'No states found.' });
-  const contig = req.query?.contig; //allows contig value to be used
+  const contig = req.query?.contig;
 
-  let statesList = []; //creates array
+  let statesList = [];
 
   if (contig === "true") {
+    //return the contig states
     statesList = jsonStateData.filter(
       (st) => st.code !== "AK" && st.code !== "HI"
     );
@@ -145,7 +146,29 @@ const postFunfact = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
+
+  /*if (!Funfact.findOne)//({ funfact: state.funfacts }).exec()) {
+    try {
+      const result = await Funfact.createOne({
+        stateCode: req.params.state,
+        funfacts: req.params.funfact,
+      });
+      res.status(201).json(result);
+    } catch (err) {
+      console.error(err);
+  } else {
+    try {
+      const result = await Funfact.updateOne({
+        stateCode: req.params.state,
+        funfacts: req.params.funfacts,
+      });
+      res.status(201).json(result);
+    } catch (err) {
+      console.error(err);
+    }
+  }*/
 };
+
 
 const patchFunfact = async (req, res) => {
   if (!req?.body?.index) {
@@ -157,6 +180,10 @@ const patchFunfact = async (req, res) => {
   if (!req.body.funfacts) {
     return res.status(400).json({ message: "State fun fact value required" });
   }
+
+  /*if (!req?.body?.state) {
+      return res.status(400).json({ message: "State code required" });
+    }*/
 
   const state = await Funfact.findOne({ stateCode: req.code }).exec();
   const stated = data.states.find(
@@ -192,26 +219,31 @@ const deleteFunfact = async (req, res) => {
     return res.status(400).json({ message: "State fun fact value required" });
   }
 
+  /*if (!req?.body?.state) {
+      return res.status(400).json({ message: "State code required" });
+    }*/
+
   const state = await State.findOne({ stateCode: req.code }).exec();
   const stateJSON = jsonStateData.find((st) => st.code === req.code);
 
-  if (!state?.funfacts) {
-    return res
-      .status(400)
-      .json({ message: `No Fun Facts found for ${state.state} ` });
+   var [fact_array] = [state.funfacts];
+
+  if (fact_array === undefined) {
+    return res.json({ message: `No Fun Facts found for ${state.state} ` });
   } else {
     let indice = req.body.index - 1;
     if (indice > state.funfacts.length)
       return res.status(400).json({
         message: `No Fun Fact found at that index for ${state.state}`,
       });
-
+   
     state.funfacts[indice] = req.body.funfacts;
 
     const result = await state.save();
     res.json(result);
-  }
-};
+  };
+}
+
 
 module.exports = {
   getAllStates,
