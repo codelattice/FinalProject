@@ -146,27 +146,6 @@ const postFunfact = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
-
-  /*if (!Funfact.findOne)//({ funfact: state.funfacts }).exec()) {
-    try {
-      const result = await Funfact.createOne({
-        stateCode: req.params.state,
-        funfacts: req.params.funfact,
-      });
-      res.status(201).json(result);
-    } catch (err) {
-      console.error(err);
-  } else {
-    try {
-      const result = await Funfact.updateOne({
-        stateCode: req.params.state,
-        funfacts: req.params.funfacts,
-      });
-      res.status(201).json(result);
-    } catch (err) {
-      console.error(err);
-    }
-  }*/
 };
 
 
