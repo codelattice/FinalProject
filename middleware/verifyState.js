@@ -17,7 +17,6 @@ const verifyState = (req, res, next) => {
     {
 
     }
-
 }
 
 module.exports = verifyState
